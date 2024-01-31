@@ -82,3 +82,4 @@ To learn more about React Native, take a look at the following resources:
 
 useNavigation()
 navigation.push()
+tmdb for api 

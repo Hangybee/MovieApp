@@ -2,13 +2,14 @@ import { View, Text, TouchableWithoutFeedback, Dimensions, Image } from 'react-n
 import React from 'react'
 import Carousel from 'react-native-snap-carousel'
 import { useNavigation } from '@react-navigation/native';
+import { image500 } from '../api/moviedb';
 
 const {height, width} = Dimensions.get('window')
 
 const TrendingMovies = ({data}) => {
     const navigation = useNavigation()
     const handlePress = (item) =>{
-        navigation.navigate('Movie', item)
+        navigation.navigate('Movie', {item})
     }
   return (
     <View>
@@ -20,7 +21,7 @@ const TrendingMovies = ({data}) => {
         inactiveSliderOpacity={0.60}
         sliderWidth={width}
         itemWidth={width*0.62}
-        slideStyle={{display:'flex',alignItem:'center',marginTop:10}}
+        slideStyle={{display:'flex',marginTop:10}}
         />
     </View>
   )
@@ -33,7 +34,8 @@ const MovieCard = ({item, handlePress}) =>{
         //to be done
         <TouchableWithoutFeedback onPress={()=>handlePress(item)}>
             <Image
-                source={require('../assets/images/caption-marvel.jpg')}
+                // source={require('../assets/images/caption-marvel.jpg')}
+                source={{uri: image500(item.poster_path)}}
                 style={{
                     width:width*0.6,
                     height: height*0.4,
