@@ -14,6 +14,7 @@ import Cast from '../component/Cast';
 import { useNavigation } from '@react-navigation/native';
 import Movielist from '../component/movieList';
 import Loading from '../component/Loading';
+import { fetchMovieCredits, fetchMovieDetail, image500 } from '../api/moviedb';
 
 const MovieScreen = ({ route }) => {
   const { height, width } = Dimensions.get('window');
@@ -21,12 +22,28 @@ const MovieScreen = ({ route }) => {
   const [cast, setCast] = useState([1, 2, 3, 4, 5])
   const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4, 5])
   const [loading, setLoading] = useState(false)
-
+  const [movie, setMovie] = useState(null)
+  const [credit,setCredit] = useState(null)
+  const id = route.params.item.id
   const navigation = useNavigation()
-  console.log('aaaaaa', route.params.item.id);
   useEffect(() => {
-    // to be done
+    console.log('item id', route.params.item.id)
+    setLoading(true)
+    getMovieDetails(id)
+    getMovieCredits(id)
   }, [route]);
+
+  const getMovieDetails = async (id) => {
+    const data = await fetchMovieDetail(id)
+    if (data)     setMovie(data)
+    setLoading(false)
+  }
+
+  const getMovieCredits = async(id) =>{
+    const data = await fetchMovieCredits(id)
+    if(data) setCredit(data.message.cast)
+    setLoading(false)
+  }
   return (
     <ScrollView style={{ flex: 1, backgroundColor: 'black', paddingTop: 5 }}>
       {/* back button functionality */}
@@ -59,7 +76,7 @@ const MovieScreen = ({ route }) => {
             start={{x: 0.5, y: 0}}
             end={{x: 0.5, y: 1}}> */}
               <Image
-                source={require('../assets/images/ant-man.jpg')}
+                source={{uri:image500(movie?.message.poster_path) || "alt text"}}
                 style={{ width, height: height * 0.55 }}
               />
               {/* </LinearGradient> */}
@@ -68,17 +85,23 @@ const MovieScreen = ({ route }) => {
         }
         <Text style={{ color: 'white', fontSize: 26, textAlign: 'center' }}>
           {
-            "Ant-Man and the Wasp: Quantumania"
+            movie?.message.title
           }
         </Text>
-        <Text style={{ color: 'gray', textAlign: 'center', fontWeight: '800', marginTop: 10, marginBottom: 10 }}>Released . 2020 . 170 min</Text>
+        <Text style={{ color: 'gray', textAlign: 'center', fontWeight: '800', marginTop: 10, marginBottom: 10 }}>{movie?.message.status} . {movie?.message.release_date?.split('-')[0]} . {movie?.message.runtime} min</Text>
+        
         <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }} >
-          <Text style={{ color: 'gray', fontWeight: '800' }}>Action . </Text>
-          <Text style={{ color: 'gray', fontWeight: '800' }}>Thrill . </Text>
-          <Text style={{ color: 'gray', fontWeight: '800' }}>Comedy . </Text>
+        {movie && movie.message.genres.map((genre, index)=>{
+          let showDot = index+1 != movie.message.genres.length
+          return(
+            <Text style={{ color: 'gray', fontWeight: '800' }}>{genre?.name} {showDot?".":null} </Text>
+          )
+        })}
         </View>
         <Text style={{ color: 'gray' }}>
-          Ant-Man and the Wasp is a 2018 American superhero film based on Marvel Comics featuring the characters Scott Lang / Ant-Man and Hope Pym / Wasp. Produced by Marvel Studios and distributed by Walt Disney Studios Motion Pictures, it is the sequel to Ant-Man (2015) and the 20th film in the Marvel Cinematic Universe (MCU).
+        {
+          movie?.message.overview
+        }
         </Text>
       </View>
       <Cast navigation={navigation} cast={cast} />

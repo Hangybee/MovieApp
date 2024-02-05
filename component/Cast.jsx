@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View , Image} from 'react-native'
 import React from 'react'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import { image185 } from '../api/moviedb'
 
 const Cast = ({navigation, cast}) => {
     let personName = 'Keanu Reeves'
@@ -19,7 +20,9 @@ const Cast = ({navigation, cast}) => {
                         style={{marginRight:10, alignItems:'center'}}
                         onPress={()=>navigation.navigate('Person','person')}
                     >
-                        <Image source={require('../assets/images/Keanu-Revees.webp')} style={{height:80, width:80, borderRadius:40, marginBottom:8, marginTop:3}}/>
+                        <Image 
+                        source={{uri:image185(person?.profile_path)}} 
+                        style={{height:80, width:80, borderRadius:40, marginBottom:8, marginTop:3}}/>
                         <Text style={{color:'white'}}>
                             {
                                 characterName.length>10?characterName.split(0,10)+'...':characterName

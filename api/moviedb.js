@@ -8,7 +8,7 @@ const upcomingMoviesEndpoint = `${apiBaseUrl}/movie/upcoming?language=en-US`
 const topRatedMoviesEndpoint = `${apiBaseUrl}/movie/top_rated?language=en-US`
 
 
-const movieDetailsEndpoint = id => id? `${apiBaseUrl}/movie/${id}?language=en-US` : null
+const movieDetailsEndpoint = id => id? `${apiBaseUrl}/movie/${id}` : null
 const movieCreditsEndpoint = id => id ? `${apiBaseUrl}/movie/${id}/credits?language=en-US`: null
 const similarMovieEndpoint = id => id ? `${apiBaseUrl}movie/${id}/similar`: null
 
@@ -57,4 +57,18 @@ const apicall = async(endpoints,method) =>{
     return apicall(topRatedMoviesEndpoint,'GET')
   }
 
+  export const fetchMovieDetail = (id) => {
+    console.log('uuuuuuuuuuuuuu',id)
+    console.log('qqqqqqqqqq',`${apiBaseUrl}/movie/${id}`)
+    return apicall(movieDetailsEndpoint(id),'GET')
+  }
+
+  export const fetchMovieCredits = (id) => {
+  
+    return apicall(movieCreditsEndpoint(id),'GET')
+  }
+
+  export const fetchSimilarMovies = (id) => {
+    return apicall(similarMovieEndpoint(id),'GET')
+  }
  
