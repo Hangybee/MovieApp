@@ -9,6 +9,7 @@ const {height, width} = Dimensions.get('window')
 const TrendingMovies = ({data}) => {
     const navigation = useNavigation()
     const handlePress = (item) =>{
+      console.log('1111111111111',item)
         navigation.navigate('Movie', {item})
     }
   return (

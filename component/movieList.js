@@ -17,7 +17,7 @@ const Movielist = ({title, hiddenAll=true, data}) => {
   return (
     <View style={{marginTop: 20}}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={{color: 'white'}}>{title}</Text>
+        <Text style={{color: 'white',marginLeft:5}}>{title}</Text>
         {hiddenAll ? (
           <TouchableOpacity>
             <Text style={{color: 'yellow'}}>Sell All</Text>
@@ -34,7 +34,7 @@ const Movielist = ({title, hiddenAll=true, data}) => {
           return (
             <TouchableWithoutFeedback
               key={index}
-              onPress={() => navigation.push('Movie', item)}>
+              onPress={() => navigation.push('Movie', {item})}>
               <View style={{marginTop: 20, marginRight:15}}>
                 <Image
                   // source={require('../assets/images/ant-man.jpg')}                

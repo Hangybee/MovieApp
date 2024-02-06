@@ -14,23 +14,24 @@ import Cast from '../component/Cast';
 import { useNavigation } from '@react-navigation/native';
 import Movielist from '../component/movieList';
 import Loading from '../component/Loading';
-import { fetchMovieCredits, fetchMovieDetail, image500 } from '../api/moviedb';
+import { fetchMovieCredits, fetchMovieDetail, fetchSimilarMovies, image500 } from '../api/moviedb';
 
 const MovieScreen = ({ route }) => {
   const { height, width } = Dimensions.get('window');
   const [isFavorite, setIsFavourite] = useState(false);
   const [cast, setCast] = useState([1, 2, 3, 4, 5])
-  const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4, 5])
+  const [similarMovies, setSimilarMovies] = useState(null)
   const [loading, setLoading] = useState(false)
   const [movie, setMovie] = useState(null)
   const [credit,setCredit] = useState(null)
   const id = route.params.item.id
   const navigation = useNavigation()
   useEffect(() => {
-    console.log('item id', route.params.item.id)
+    console.log('item id', route)
     setLoading(true)
     getMovieDetails(id)
     getMovieCredits(id)
+    getSimilarMovie(id)
   }, [route]);
 
   const getMovieDetails = async (id) => {
@@ -44,6 +45,13 @@ const MovieScreen = ({ route }) => {
     if(data) setCredit(data.message.cast)
     setLoading(false)
   }
+
+  const getSimilarMovie = async(id) =>{
+    const data = await fetchSimilarMovies(id)
+    if(data) setSimilarMovies(data.message.results)
+    setLoading(false)
+  }
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: 'black', paddingTop: 5 }}>
       {/* back button functionality */}
@@ -98,14 +106,14 @@ const MovieScreen = ({ route }) => {
           )
         })}
         </View>
-        <Text style={{ color: 'gray' }}>
+        <Text style={{ color: 'gray',marginLeft:5 }}>
         {
           movie?.message.overview
         }
         </Text>
       </View>
-      <Cast navigation={navigation} cast={cast} />
-      <Text style={{ color: 'white' }}>simlar movies</Text>
+      <Cast navigation={navigation} cast={credit} />
+     
       <Movielist title="Similar Movies" hiddenAll={false} data={similarMovies} />
 
     </ScrollView>

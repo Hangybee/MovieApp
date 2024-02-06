@@ -4,11 +4,10 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { image185 } from '../api/moviedb'
 
 const Cast = ({navigation, cast}) => {
-    let personName = 'Keanu Reeves'
-    let characterName = 'John Wick'
+
   return (
     <View>
-      <Text style={{color:'white', marginTop:10,fontSize:15}}>Top Cast</Text>
+      <Text style={{color:'white', marginTop:10,fontSize:15,marginLeft:5}}>Top Cast</Text>
       <ScrollView
         horizontal
         style={{marginTop:10}}
@@ -18,19 +17,19 @@ const Cast = ({navigation, cast}) => {
                 return(
                     <TouchableOpacity
                         style={{marginRight:10, alignItems:'center'}}
-                        onPress={()=>navigation.navigate('Person','person')}
+                        onPress={()=>navigation.navigate('Person',curr.id)}
                     >
                         <Image 
-                        source={{uri:image185(person?.profile_path)}} 
+                        source={{uri:image185(curr?.profile_path)}} 
                         style={{height:80, width:80, borderRadius:40, marginBottom:8, marginTop:3}}/>
-                        <Text style={{color:'white'}}>
+                        <Text style={{color:'white',marginLeft:5}}>
                             {
-                                characterName.length>10?characterName.split(0,10)+'...':characterName
+                                curr.character.length>10?curr.character.split(0,10)+'...':curr.character
                             }
                         </Text>
                         <Text style={{color:'white'}}>
                             {
-                                personName.length>10?personName.split(0,10)+'...':personName
+                                curr.original_name.length>10?curr.original_name.split(0,10)+'...':curr.original_name
                             }
                         </Text>
                     </TouchableOpacity>

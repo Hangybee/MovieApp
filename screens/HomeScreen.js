@@ -82,6 +82,7 @@ const HomeScreen = ({navigation}) => {
       </SafeAreaView>
       {loading?(<Loading />):(
         <ScrollView
+        style={{marginHorizontal:3}}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 10}}>
         {/*trending movies*/}
