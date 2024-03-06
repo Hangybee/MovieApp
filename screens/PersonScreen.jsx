@@ -14,6 +14,7 @@ import Movielist from '../component/movieList';
 import { useNavigation } from '@react-navigation/native';
 import Loading from '../component/Loading';
 import { fetchPersonMovie, fetchpersonDetail, image342 } from '../api/moviedb';
+import { useTranslation } from 'react-i18next';
 
 const PersonScreen = ({ route }) => {
   const navigation = useNavigation()
@@ -22,8 +23,7 @@ const PersonScreen = ({ route }) => {
   const [personMovie, setPersonMovie] = useState(null)
   const [person, setPerson] = useState(null)
   const [loading, setLoading] = useState(false)
-  console.log('lllllllllllllll', route.params)
-
+  const {t} = useTranslation()
   useEffect(() => {
     setLoading(true)
     getPersonDetails()
@@ -36,10 +36,10 @@ const PersonScreen = ({ route }) => {
     setLoading(false)
   }
 
-  const getPersonMovies = async () =>{
+  const getPersonMovies = async () => {
     const data = await fetchPersonMovie(route.params)
     console.log(data.message)
-    if(data) setPersonMovie(data.message.cast)
+    if (data) setPersonMovie(data.message.cast)
     setLoading(false)
   }
 
@@ -71,7 +71,7 @@ const PersonScreen = ({ route }) => {
                 shadowRadius: 40,
                 shadowOffset: { width: 0, height: 5 },
                 shadowOpacity: 1,
-                
+
               }}>
               <View
                 style={{
@@ -118,10 +118,10 @@ const PersonScreen = ({ route }) => {
               </View>
             </View>
             <View>
-              <Text style={{ fontSize: 20, color: 'white', marginTop: 20, marginLeft:4 }}>Biography</Text>
-              <Text style={{ color: 'gray', marginTop: 10,marginLeft:4 }}>{person?.biography || "N/A"}</Text>
+              <Text style={{ fontSize: 20, color: 'white', marginTop: 20, marginLeft: 4 }}>{t('biography')}</Text>
+              <Text style={{ color: 'gray', marginTop: 10, marginLeft: 4 }}>{person?.biography || "N/A"}</Text>
             </View>
-            <Movielist title='Movies' hiddenAll={false} data={personMovie} />
+            <Movielist title={t('movies')} hiddenAll={false} data={personMovie} />
           </View>
         )
       }

@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import Movielist from '../component/movieList';
 import Loading from '../component/Loading';
 import { fetchMovieCredits, fetchMovieDetail, fetchSimilarMovies, image500 } from '../api/moviedb';
+import { useTranslation } from 'react-i18next';
 
 const MovieScreen = ({ route }) => {
   const { height, width } = Dimensions.get('window');
@@ -23,8 +24,9 @@ const MovieScreen = ({ route }) => {
   const [similarMovies, setSimilarMovies] = useState(null)
   const [loading, setLoading] = useState(false)
   const [movie, setMovie] = useState(null)
-  const [credit,setCredit] = useState(null)
+  const [credit, setCredit] = useState(null)
   const id = route.params.item.id
+  const {t} = useTranslation()
   const navigation = useNavigation()
   useEffect(() => {
     console.log('item id', route)
@@ -36,19 +38,19 @@ const MovieScreen = ({ route }) => {
 
   const getMovieDetails = async (id) => {
     const data = await fetchMovieDetail(id)
-    if (data)     setMovie(data)
+    if (data) setMovie(data)
     setLoading(false)
   }
 
-  const getMovieCredits = async(id) =>{
+  const getMovieCredits = async (id) => {
     const data = await fetchMovieCredits(id)
-    if(data) setCredit(data.message.cast)
+    if (data) setCredit(data.message.cast)
     setLoading(false)
   }
 
-  const getSimilarMovie = async(id) =>{
+  const getSimilarMovie = async (id) => {
     const data = await fetchSimilarMovies(id)
-    if(data) setSimilarMovies(data.message.results)
+    if (data) setSimilarMovies(data.message.results)
     setLoading(false)
   }
 
@@ -84,7 +86,7 @@ const MovieScreen = ({ route }) => {
             start={{x: 0.5, y: 0}}
             end={{x: 0.5, y: 1}}> */}
               <Image
-                source={{uri:image500(movie?.message.poster_path) || "alt text"}}
+                source={{ uri: image500(movie?.message.poster_path) || "alt text" }}
                 style={{ width, height: height * 0.55 }}
               />
               {/* </LinearGradient> */}
@@ -97,24 +99,24 @@ const MovieScreen = ({ route }) => {
           }
         </Text>
         <Text style={{ color: 'gray', textAlign: 'center', fontWeight: '800', marginTop: 10, marginBottom: 10 }}>{movie?.message.status} . {movie?.message.release_date?.split('-')[0]} . {movie?.message.runtime} min</Text>
-        
+
         <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 10 }} >
-        {movie && movie.message.genres.map((genre, index)=>{
-          let showDot = index+1 != movie.message.genres.length
-          return(
-            <Text style={{ color: 'gray', fontWeight: '800' }}>{genre?.name} {showDot?".":null} </Text>
-          )
-        })}
+          {movie && movie.message.genres.map((genre, index) => {
+            let showDot = index + 1 != movie.message.genres.length
+            return (
+              <Text style={{ color: 'gray', fontWeight: '800' }}>{genre?.name} {showDot ? "." : null} </Text>
+            )
+          })}
         </View>
-        <Text style={{ color: 'gray',marginLeft:5 }}>
-        {
-          movie?.message.overview
-        }
+        <Text style={{ color: 'gray', marginLeft: 5 }}>
+          {
+            movie?.message.overview
+          }
         </Text>
       </View>
       <Cast navigation={navigation} cast={credit} />
-     
-      <Movielist title="Similar Movies" hiddenAll={false} data={similarMovies} />
+
+      <Movielist title={t('similar Movies')} hiddenAll={false} data={similarMovies} />
 
     </ScrollView>
   );

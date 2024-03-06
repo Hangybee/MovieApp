@@ -10,9 +10,11 @@ import {
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import { image185 } from '../api/moviedb';
+import { useTranslation } from 'react-i18next';
 
 const Movielist = ({title, hiddenAll=true, data}) => {
   const {height, width} = Dimensions.get('window');
+  const {t} = useTranslation()
   const navigation = useNavigation();
   return (
     <View style={{marginTop: 20}}>
@@ -20,7 +22,7 @@ const Movielist = ({title, hiddenAll=true, data}) => {
         <Text style={{color: 'white',marginLeft:5}}>{title}</Text>
         {hiddenAll ? (
           <TouchableOpacity>
-            <Text style={{color: 'yellow'}}>Sell All</Text>
+            <Text style={{color: 'yellow'}}>{t('see all')}</Text>
           </TouchableOpacity>
         ) : (
           false

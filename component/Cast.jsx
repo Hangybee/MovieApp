@@ -2,12 +2,13 @@ import { StyleSheet, Text, View , Image} from 'react-native'
 import React from 'react'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { image185 } from '../api/moviedb'
+import { useTranslation } from 'react-i18next'
 
 const Cast = ({navigation, cast}) => {
-
+  const {t} = useTranslation()
   return (
     <View>
-      <Text style={{color:'white', marginTop:10,fontSize:15,marginLeft:5}}>Top Cast</Text>
+      <Text style={{color:'white', marginTop:10,fontSize:15,marginLeft:5}}>{t('top cast')}</Text>
       <ScrollView
         horizontal
         style={{marginTop:10}}

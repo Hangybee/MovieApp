@@ -10,21 +10,21 @@ const SearchScreen = ({ navigation }) => {
     const { height, width } = Dimensions.get('window')
     const [result, setResult] = useState(null)
     const [loading, setLoading] = useState(false)
-    const handleSearch  = async (value) => {
-        if(value && value.length>2){
+    const handleSearch = async (value) => {
+        if (value && value.length > 2) {
             setLoading(true)
             const data = await fetchSearchMovie(`query=${value}`)
-            console.log('hhhhhh',data.message.results)
+            console.log('hhhhhh', data.message.results)
             setResult(data.message.results)
             setLoading(false)
 
         }
-        else{
+        else {
             setLoading(false)
             setResult([])
         }
     }
-    const handleTextDebounce = useCallback(_.debounce(handleSearch, 400),[])
+    const handleTextDebounce = useCallback(_.debounce(handleSearch, 400), [])
     return (
         <SafeAreaView style={{ backgroundColor: 'black', flex: 1 }}>
             <View style={{ marginHorizontal: 20, marginBottom: 3, marginTop: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderWidth: 1, borderColor: 'gray', borderRadius: 30 }}>
@@ -62,10 +62,10 @@ const SearchScreen = ({ navigation }) => {
                                                 <View>
                                                     <Image
                                                         // source={require('../assets/images/ant-man.jpg')}
-                                                        source={{uri:image185(curr.poster_path)}}
+                                                        source={{ uri: image185(curr.poster_path) }}
                                                         style={{ height: height * 0.44, width: width * 0.45, borderRadius: 20 }}
                                                     />
-                                                    <Text style={{ fontWeight: '500', color: 'gray', marginVertical: 8, textAlign: 'center' }}>{(curr.title).length>22?curr.title.slice(0,22)+'...':curr.title}</Text>
+                                                    <Text style={{ fontWeight: '500', color: 'gray', marginVertical: 8, textAlign: 'center' }}>{(curr.title).length > 22 ? curr.title.slice(0, 22) + '...' : curr.title}</Text>
                                                 </View>
                                             </TouchableOpacity>
                                         )

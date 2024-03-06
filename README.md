@@ -83,3 +83,8 @@ To learn more about React Native, take a look at the following resources:
 useNavigation()
 navigation.push()
 tmdb for api 
+
+///
+for language change
+1 - install npm i react-i18next
+2 - install npm i i18next
