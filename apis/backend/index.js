@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 const x = [
     {
         "name":"mayank bankoti",
-        "email":"mayankbankoti28@yopmail.com",
+        "email":"mayankbankoti28@gmail.com",
         "password":"Test@123"
     },
     {

@@ -33,6 +33,7 @@ const Login = ({ navigation }) => {
         )
         if(y.length>0){
             navigation.navigate('Home')
+            setData('')
         }
         else{
             console.log('invalid user')
@@ -50,13 +51,13 @@ const Login = ({ navigation }) => {
                 marginTop: 10
             }}>
                 <Text style={{ fontSize: 18, marginBottom: 20, color: 'yellow' }}>Email</Text>
-                <TextInput name='email' onChangeText={(event) => handleValue(event, 'email')} placeholder='Enter Email' style={{ width: 350, height: 45, borderWidth: 1, borderRadius: 10, paddingLeft: 10, borderColor: 'white' }} />
+                <TextInput value={data.email} name='email' onChangeText={(event) => handleValue(event, 'email')} placeholder='Enter Email' style={{ width: 350, height: 45, borderWidth: 1, borderRadius: 10, paddingLeft: 10, borderColor: 'white' }} />
             </View>
             <View style={{
                 marginTop: 10
             }}>
                 <Text style={{ fontSize: 18, marginVertical: 20, color: 'yellow' }}>Password</Text>
-                <TextInput secureTextEntry name='password' onChangeText={(event) => handleValue(event, 'password')} placeholder='Enter Password' style={{ width: 350, height: 45, borderWidth: 1, borderRadius: 10, paddingLeft: 10, borderColor: 'white' }} />
+                <TextInput  value={data.password} secureTextEntry name='password' onChangeText={(event) => handleValue(event, 'password')} placeholder='Enter Password' style={{ width: 350, height: 45, borderWidth: 1, borderRadius: 10, paddingLeft: 10, borderColor: 'white' }} />
             </View>
             <View style={{ flexDirection: 'row' }}>
                 <View style={{ flexDirection: 'row', marginRight: 100, marginTop: 20 }}>
