@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   MagnifyingGlassIcon,
 } from 'react-native-heroicons/outline';
@@ -15,14 +15,15 @@ import Movielist from '../component/movieList';
 import Loading from '../component/Loading';
 import apicall, { fetchTopRatedMovies, fetchTrendingMovies, fetchUpcomingMovies } from '../api/moviedb';
 import { useTranslation } from 'react-i18next';
-import MyDrawer from '../navigation/appDrawerNavigation';
+import UserContext from '../context/UserContext';
+
 
 const HomeScreen = ({ navigation }) => {
   const [trending, setTrending] = useState(null);
   const [upcoming, setUpcoming] = useState(null);
   const [toprated, setToprated] = useState(null);
   const [loading, setLoading] = useState(true)
-
+  const {dark} = useContext(UserContext)
   const { t, i18n } = useTranslation()
   useEffect(() => {
     getTrendingMovies()
@@ -63,7 +64,7 @@ const HomeScreen = ({ navigation }) => {
 
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'black' }}>
+    <View style={{ flex: 1, backgroundColor: dark?'black':'white' }}>
       <SafeAreaView style={{ marginBottom: 3 }}>
         <StatusBar
           animated={true}
@@ -78,11 +79,11 @@ const HomeScreen = ({ navigation }) => {
             justifyContent: 'flex-end',
             marginTop: 10,
           }}>
-          <Text style={{ color: 'white', fontSize: 30, marginRight:120, color:'yellow' }}>
+          <Text style={{ color: 'white', fontSize: 30, marginRight:120, color:dark?'yellow':'black' }}>
             {t('movies')}
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Search')}>
-            <MagnifyingGlassIcon size="30" strokeWidth={2} color="white" />
+            <MagnifyingGlassIcon size="30" strokeWidth={2} color={dark?'white':'black'} />
           </TouchableOpacity>
         </View>
       </SafeAreaView>

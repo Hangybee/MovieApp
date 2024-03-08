@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View, Alert, Modal, Pressable, FlatList, TouchableOpacity, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, useColorScheme, Alert, Modal, Pressable, FlatList, TouchableOpacity, Image, TextInput, Switch } from 'react-native';
 import UserContext from '../context/UserContext';
-
+import {
+    CheckIcon
+} from 'react-native-heroicons/outline';
 const Setttings = () => {
-    const {name, setName} = useContext(UserContext)
-    const [flag,setFlag] = useState(false)
+    const { name, setName, dark, setDark } = useContext(UserContext)
+    const [flag, setFlag] = useState(false)
     const [modalVisible, setModalVisible] = useState(false);
     const [lang, setLang] = useState('')
-    const { i18n } = useTranslation()
-    //console.log('qqqqqqqqqqqqqq',i18n.language)
+    const { t, i18n } = useTranslation()
     const language = [{
         key: 'en',
         value: 'English'
@@ -31,65 +32,70 @@ const Setttings = () => {
         value: 'Kannada'
     }]
 
-    const selectedLanguage = (language) =>{
-        return language.filter((curr)=> curr.key === i18n.language)[0].value
+    const selectedLanguage = (language) => {
+        return language.filter((curr) => curr.key === i18n.language)[0].value
     }
-    
-    useEffect(()=>{
-        setLang(selectedLanguage(language))
 
-    },[i18n.language])
+    useEffect(() => {
+        setLang(selectedLanguage(language))
+    }, [i18n.language])
     return (
-        <View style={{ backgroundColor: 'black', flex: 1, paddingTop: 40, paddingHorizontal: 25 }}>
+        <View style={[styles.container,{ backgroundColor: dark ? 'black' : 'white',}]}>
             <View style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between'
             }}>
                 <Text style={{
-                    fontSize: 30
-                }}>Settings</Text>
+                    fontSize: 30,
+                    color: dark ? 'white' : 'black'
+                }}>{t('settings')}</Text>
                 <Image
                     source={require('../assets/images/profile_pic.jpeg')}
-                    style={{ width: 60, height: 60, borderRadius: 40 }}
+                    style={styles.imageStyle}
                 />
             </View>
             <View style={{
                 rowGap: 20
             }}>
                 <View>
-                    <Text>Username</Text>
+                    <Text style={styles.labelStyle}>{t('username')}</Text>
                     <View style={{
                         justifyContent: 'space-between', flexDirection: 'row'
                     }}>
-                        
-                        {flag?<TextInput onChangeText={(e)=>setName(e)} placeholder='abc' />:<Text>{name?name:'Mayankkk'}</Text>}
+
+                        {flag ? <TextInput style={{borderWidth:1, marginTop:5,width:200,borderRadius:10, height:35, borderColor:'gray',paddingLeft:10}} onChangeText={(e) => setName(e)} placeholder='Your Name' /> : <Text style={{ color: dark ? 'white' : 'black', fontSize: 17 }}>{name ? name : 'Mayank'}</Text>}
                         {
-                            flag?(<TouchableOpacity onPress={()=>{
+                            flag ? (<TouchableOpacity onPress={() => {
                                 setFlag(false)
                             }}>
-                                <Text style={{ color: 'green' }}>Save</Text>
-                            </TouchableOpacity>):(<TouchableOpacity onPress={()=>{
-                            setFlag(true)
-                        }}>
-                            <Text style={{ color: 'green' }}>Edit</Text>
-                        </TouchableOpacity>)
+                                <Text style={{ color: 'green', fontSize:17 }}>Save</Text>
+                            </TouchableOpacity>) : (<TouchableOpacity onPress={() => {
+                                setFlag(true)
+                            }}>
+                                <Text style={styles.editButtonStyle}>{t('edit')}</Text>
+                            </TouchableOpacity>)
                         }
-                        
+
                     </View>
                 </View>
                 <View>
-                    <Text>Language</Text>
+                    <Text style={styles.labelStyle}>{t('language')}</Text>
 
                     <View style={{
                         justifyContent: 'space-between', flexDirection: 'row'
                     }}>
-                        <Text>{lang}</Text>
-                        
-
+                        <Text style={[styles.headerFontStyle, {  color: dark ? 'white' : 'black' }]}>{lang}</Text>
                         <TouchableOpacity
                             onPress={() => setModalVisible(true)}>
-                            <Text style={{ color: 'green' }}>Change Language</Text>
+                            <Text style={styles.editButtonStyle}>{t('change language')}</Text>
                         </TouchableOpacity>
+                    </View>
+
+                </View>
+                <View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+                        <Text style={[styles.headerFontStyle, {  color: dark ? 'white' : 'black' }]}>Dark theme</Text>
+                        <Switch value={dark} onChange={() => setDark(!dark)} />
                     </View>
                 </View>
             </View>
@@ -108,9 +114,11 @@ const Setttings = () => {
                             <FlatList
                                 data={language}
                                 contentContainerStyle={{ flex: 1, height: '100%', rowGap: 20, justifyContent: 'center' }}
+
                                 renderItem={({ item, index }) => {
                                     return (
-                                        <TouchableOpacity onPress={() => i18n.changeLanguage(item.key)}>
+                                        <TouchableOpacity style={{ flexDirection: 'row', columnGap: 10, alignItems: 'center' }} onPress={() => i18n.changeLanguage(item.key)}>
+                                            {/* <CheckIcon size="18" strokeWidth={4} color="black" /> */}
                                             <Text style={{ color: 'black', fontSize: 20 }}>{item.value}</Text>
                                         </TouchableOpacity>
                                     )
@@ -119,7 +127,7 @@ const Setttings = () => {
                             <Pressable
                                 style={{ backgroundColor: 'blue', padding: 8, borderRadius: 10, width: '100%' }}
                                 onPress={() => setModalVisible(!modalVisible)}>
-                                <Text style={styles.textStyle}>Close</Text>
+                                <Text style={styles.textStyle}>Done</Text>
                             </Pressable>
                         </View>
                     </View>
@@ -132,9 +140,13 @@ const Setttings = () => {
 
 }
 
-export default Setttings
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingTop: 40,
+        paddingHorizontal: 25
+    },
     centeredView: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -177,4 +189,22 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         textAlign: 'center',
     },
+    labelStyle: {
+        color: 'gray',
+        fontSize: 16
+    },
+    editButtonStyle: {
+        color: 'green',
+        fontSize: 17
+    },
+    imageStyle:{
+        width: 60,
+         height: 60, 
+         borderRadius: 40
+    },
+    headerFontStyle:{
+        fontSize: 17,
+    }
 });
+
+export default Setttings

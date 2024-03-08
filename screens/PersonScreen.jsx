@@ -8,15 +8,17 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ChevronLeftIcon, HeartIcon } from 'react-native-heroicons/outline';
 import Movielist from '../component/movieList';
 import { useNavigation } from '@react-navigation/native';
 import Loading from '../component/Loading';
 import { fetchPersonMovie, fetchpersonDetail, image342 } from '../api/moviedb';
 import { useTranslation } from 'react-i18next';
+import UserContext from '../context/UserContext';
 
 const PersonScreen = ({ route }) => {
+  const {dark} = useContext(UserContext)
   const navigation = useNavigation()
   const [isFavorite, setIsFavourite] = useState(false);
   const { height, width } = Dimensions.get('window');
@@ -44,7 +46,7 @@ const PersonScreen = ({ route }) => {
   }
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: 'black' }}>
+    <ScrollView style={{ flex: 1, backgroundColor: dark?'black':'white' }}>
       <SafeAreaView
         style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <TouchableOpacity
@@ -57,10 +59,10 @@ const PersonScreen = ({ route }) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <ChevronLeftIcon size="28" strokeWidth={2.5} color="white" />
+          <ChevronLeftIcon size="28" strokeWidth={2.5} color='white' />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setIsFavourite(!isFavorite)}>
-          <HeartIcon size="35" color={isFavorite ? 'red' : 'white'} />
+          <HeartIcon size="35" color={isFavorite ? 'red' : dark?'white':'black'} />
         </TouchableOpacity>
       </SafeAreaView>
       {
@@ -97,7 +99,7 @@ const PersonScreen = ({ route }) => {
                 {/* <Image source={require('../assets/images/Keanu-Revees.webp')} style={{height:80, width:80, borderRadius:40, marginBottom:8, marginTop:3}}/> */}
               </View>
             </View>
-            <Text style={{ color: 'white', fontSize: 25, textAlign: 'center', marginTop: 20 }}>{person?.name}</Text>
+            <Text style={{ color: dark?'white':'black', fontSize: 25, textAlign: 'center', marginTop: 20 }}>{person?.name}</Text>
             <Text style={{ color: 'gray', textAlign: 'center' }}>{person?.place_of_birth}</Text>
             <View style={{ backgroundColor: '#383434', height: 80, width: 380, marginLeft: 30, marginTop: 10, borderRadius: 50, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
               <View style={{ justifyContent: 'center', borderRightColor: 'white', borderRightWidth: 1, paddingRight: 10 }}>
@@ -118,7 +120,7 @@ const PersonScreen = ({ route }) => {
               </View>
             </View>
             <View>
-              <Text style={{ fontSize: 20, color: 'white', marginTop: 20, marginLeft: 4 }}>{t('biography')}</Text>
+              <Text style={{ fontSize: 20, color: dark?'white':'black', marginTop: 20, marginLeft: 4 }}>{t('biography')}</Text>
               <Text style={{ color: 'gray', marginTop: 10, marginLeft: 4 }}>{person?.biography || "N/A"}</Text>
             </View>
             <Movielist title={t('movies')} hiddenAll={false} data={personMovie} />

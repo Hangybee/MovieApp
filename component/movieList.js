@@ -7,22 +7,24 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import React from 'react';
+import React, { useContext } from 'react';
 import {useNavigation} from '@react-navigation/native';
 import { image185 } from '../api/moviedb';
 import { useTranslation } from 'react-i18next';
+import UserContext from '../context/UserContext';
 
 const Movielist = ({title, hiddenAll=true, data}) => {
   const {height, width} = Dimensions.get('window');
   const {t} = useTranslation()
   const navigation = useNavigation();
+  const {dark} = useContext(UserContext)
   return (
     <View style={{marginTop: 20}}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Text style={{color: 'white',marginLeft:5}}>{title}</Text>
+        <Text style={{color:dark?'white':'black',marginLeft:5}}>{title}</Text>
         {hiddenAll ? (
           <TouchableOpacity>
-            <Text style={{color: 'yellow'}}>{t('see all')}</Text>
+            <Text style={{color:dark?'yellow':'black'}}>{t('see all')}</Text>
           </TouchableOpacity>
         ) : (
           false
@@ -47,7 +49,7 @@ const Movielist = ({title, hiddenAll=true, data}) => {
                     borderRadius: 20,
                   }}
                 />
-                <Text style={{color: 'white'}}>
+                <Text style={{color: dark?'white':'black'}}>
                   {item.original_title?.length > 14
                     ? item.original_title?.slice(0, 14) + '...'
                     : item.original_title}

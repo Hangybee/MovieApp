@@ -88,3 +88,7 @@ tmdb for api
 for language change
 1 - install npm i react-i18next
 2 - install npm i i18next
+
+/////////
+For splash screen
+npm i react-native-splash-screen

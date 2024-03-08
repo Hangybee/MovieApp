@@ -1,13 +1,14 @@
 import { View, Text, TouchableWithoutFeedback, Dimensions, Image } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import Carousel from 'react-native-snap-carousel'
 import { useNavigation } from '@react-navigation/native';
 import { image500 } from '../api/moviedb';
 import { useTranslation } from 'react-i18next';
+import UserContext from '../context/UserContext';
 
 const {height, width} = Dimensions.get('window')
-
 const TrendingMovies = ({data}) => {
+  const {dark} = useContext(UserContext)
     const navigation = useNavigation()
     const {t} = useTranslation()
     const handlePress = (item) =>{
@@ -16,7 +17,7 @@ const TrendingMovies = ({data}) => {
     }
   return (
     <View>
-      <Text style={{color:'white'}}>{t('trending movies')}</Text>
+      <Text style={{color:dark?'white':'black'}}>{t('trending movies')}</Text>
       <Carousel
         data={data}
         renderItem = {({item})=> <MovieCard item={item} handlePress={handlePress} />}

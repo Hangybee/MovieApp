@@ -7,7 +7,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ChevronLeftIcon, HeartIcon } from 'react-native-heroicons/outline';
 import LinearGradient from 'react-native-linear-gradient';
 import Cast from '../component/Cast';
@@ -16,6 +16,7 @@ import Movielist from '../component/movieList';
 import Loading from '../component/Loading';
 import { fetchMovieCredits, fetchMovieDetail, fetchSimilarMovies, image500 } from '../api/moviedb';
 import { useTranslation } from 'react-i18next';
+import UserContext from '../context/UserContext';
 
 const MovieScreen = ({ route }) => {
   const { height, width } = Dimensions.get('window');
@@ -28,6 +29,7 @@ const MovieScreen = ({ route }) => {
   const id = route.params.item.id
   const {t} = useTranslation()
   const navigation = useNavigation()
+  const {dark} = useContext(UserContext)
   useEffect(() => {
     console.log('item id', route)
     setLoading(true)
@@ -55,7 +57,7 @@ const MovieScreen = ({ route }) => {
   }
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: 'black', paddingTop: 5 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: dark?'black':'white', paddingTop: 5 }}>
       {/* back button functionality */}
       <View>
         <SafeAreaView style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
@@ -69,10 +71,10 @@ const MovieScreen = ({ route }) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <ChevronLeftIcon size="28" strokeWidth={2.5} color="white" />
+            <ChevronLeftIcon size="28" strokeWidth={2.5} color={dark?'white':'black'} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setIsFavourite(!isFavorite)}>
-            <HeartIcon size="35" color={isFavorite ? 'red' : 'white'} />
+            <HeartIcon size="35" color={isFavorite ? 'red' : dark?'white':'black'} />
           </TouchableOpacity>
         </SafeAreaView>
         {
@@ -93,7 +95,7 @@ const MovieScreen = ({ route }) => {
             </View>
           )
         }
-        <Text style={{ color: 'white', fontSize: 26, textAlign: 'center' }}>
+        <Text style={{ color: dark?'white':'black', fontSize: 26, textAlign: 'center' }}>
           {
             movie?.message.title
           }
