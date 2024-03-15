@@ -5,10 +5,12 @@ import {
   StatusBar,
   TouchableOpacity,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react';
 import {
   MagnifyingGlassIcon,
+  Bars3Icon
 } from 'react-native-heroicons/outline';
 import TrendingMovies from '../component/TrendingMovies';
 import Movielist from '../component/movieList';
@@ -76,10 +78,16 @@ const HomeScreen = ({ navigation }) => {
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'flex-end',
+            // justifyContent: 'flex-end',
+            justifyContent:'space-between',
             marginTop: 10,
+            marginHorizontal:7,
+            alignItems:'center'
           }}>
-          <Text style={{ color: 'white', fontSize: 30, marginRight:120, color:dark?'yellow':'black' }}>
+            <Pressable onPress={()=>navigation.openDrawer()}>
+            <Bars3Icon size="30" strokeWidth={2} color={dark?'white':'black'} />
+            </Pressable>
+          <Text style={{ color: 'white', fontSize: 30,  color:dark?'yellow':'black' }}>
             {t('movies')}
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Search')}>

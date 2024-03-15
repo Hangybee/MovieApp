@@ -48,7 +48,7 @@ function MyDrawer({navigation}) {
                             <DrawerItemList {...props} />
                             <TouchableOpacity style={{flexDirection:'row',marginLeft:18, marginTop:10}} onPress={()=>navigation.navigate('Login')}>
                             <ArrowLeftStartOnRectangleIcon size="20" strokeWidth={2} color={dark ? 'white' : 'black'} />
-                            <Text style={{fontWeight:'bold', color:'white', marginLeft:34}}>Logout</Text>
+                            <Text style={{fontWeight:'bold', color: dark ? 'white' : 'black', marginLeft:34}}>Logout</Text>
                             </TouchableOpacity>
                         </SafeAreaView>
                     )

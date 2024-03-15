@@ -1,8 +1,9 @@
-import { KeyboardAvoidingView, Platform, TextInput, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, TextInput, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { CheckBadgeIcon } from 'react-native-heroicons/outline'
 import useApiCall from '../hooks/useApiCall'
-
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+import Toast from 'react-native-toast-message';
+import useAuthLogout from '../hooks/useAuthLogout';
 const Login = ({ navigation }) => {
 
     const [data, setData] = useState({
@@ -14,33 +15,44 @@ const Login = ({ navigation }) => {
         setData({ ...data, [type]: e })
     }
 
+    const showToast = (type) => {
+        Toast.show({
+            type: type, // 'info', 'success', 'error' or 'warning'
+            //text1: 'Error',
+            text1: 'Invalid username or password',
+            visibilityTime:3000
+        });
+    };
+
     const validateCredentials = () => {
-        navigation.navigate('Home')
-        // if(data.email==='Test@yopmail.com' || data.password==='Test@123'){
-        //     navigation.navigate('Home')
-        // }
-        // else{
-        //     console.log('invalid credentails')
-        // }
-    }
-
-
-    const validateCredentials1 = async () => {
-        const y = await useApiCall("http://10.0.2.2:3000/login", "POST", {
-            email: data.email,
-            password: data.password
-        }
-        )
-        if(y.length>0){
+        if (data.email === 'Test@yopmail.com' || data.password === 'Test@123') {
             navigation.navigate('Home')
-            setData('')
+            setData({ ...data, email: '', password: '' })
         }
-        else{
-            console.log('invalid user')
+        else {
+            showToast('error')
+            console.log('invalid credentails')
         }
     }
 
-    
+   
+    // const validateCredentials1 = async () => {
+    //     const y = await useApiCall("http://10.0.2.2:3000/login", "POST", {
+    //         email: data.email,
+    //         password: data.password
+    //     }
+    //     )
+    //     if(y.length>0){
+    //         navigation.navigate('Home')
+    //         setData('')
+    //     }
+    //     else{
+    //         console.log('invalid user')
+    //     }
+    // }
+    useEffect(()=>{
+        console.log('2222222222',useAuthLogout())
+    },[])
 
     return (
 
@@ -57,18 +69,28 @@ const Login = ({ navigation }) => {
                 marginTop: 10
             }}>
                 <Text style={{ fontSize: 18, marginVertical: 20, color: 'yellow' }}>Password</Text>
-                <TextInput  value={data.password} secureTextEntry name='password' onChangeText={(event) => handleValue(event, 'password')} placeholder='Enter Password' style={{ width: 350, height: 45, borderWidth: 1, borderRadius: 10, paddingLeft: 10, borderColor: 'white' }} />
+                <TextInput value={data.password} secureTextEntry name='password' onChangeText={(event) => handleValue(event, 'password')} placeholder='Enter Password' style={{ width: 350, height: 45, borderWidth: 1, borderRadius: 10, paddingLeft: 10, borderColor: 'white' }} />
             </View>
             <View style={{ flexDirection: 'row' }}>
                 <View style={{ flexDirection: 'row', marginRight: 100, marginTop: 20 }}>
-                    <CheckBadgeIcon color='white' />
+                    {/* <CheckBadgeIcon color='white' /> */}
+                    <BouncyCheckbox
+                        size={25}
+                        fillColor="gray"
+                        unfillColor="white"
+                        //text="Custom Checkbox"
+                        //iconStyle={{ borderColor: "white" }}
+                        //innerIconStyle={{ borderWidth: 2 }}
+                        //textStyle={{ fontFamily: "JosefinSans-Regular" }}
+                       // onPress={() => }
+                    />
                     <Text>Remember Me</Text>
                 </View>
 
                 <Text style={{ marginTop: 20 }}>Forgot Password?</Text>
             </View>
             <TouchableOpacity
-                onPress={validateCredentials1}
+                onPress={validateCredentials}
                 style={{
                     backgroundColor: 'yellow',
                     width: '50%',
@@ -84,6 +106,11 @@ const Login = ({ navigation }) => {
                     <Text style={{ color: 'yellow' }}>Sign Up</Text>
                 </TouchableOpacity>
             </View>
+            <Toast
+                position='bottom'
+                bottomOffset={20}
+
+            />
         </KeyboardAvoidingView>
     )
 }

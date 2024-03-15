@@ -63,7 +63,7 @@ const Setttings = () => {
                         justifyContent: 'space-between', flexDirection: 'row'
                     }}>
 
-                        {flag ? <TextInput style={{borderWidth:1, marginTop:5,width:200,borderRadius:10, height:35, borderColor:'gray',paddingLeft:10}} onChangeText={(e) => setName(e)} placeholder='Your Name' /> : <Text style={{ color: dark ? 'white' : 'black', fontSize: 17 }}>{name ? name : 'Mayank'}</Text>}
+                        {flag ? <TextInput style={{borderWidth:1, marginTop:5,width:200,borderRadius:10, height:35, borderColor:'gray',paddingLeft:10}} placeholderTextColor={dark?"white":"black"} onChangeText={(e) => setName(e)} placeholder='Your Name' /> : <Text style={{ color: dark ? 'white' : 'black', fontSize: 17 }}>{name ? name : 'Mayank'}</Text>}
                         {
                             flag ? (<TouchableOpacity onPress={() => {
                                 setFlag(false)
@@ -95,7 +95,7 @@ const Setttings = () => {
                 <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
                         <Text style={[styles.headerFontStyle, {  color: dark ? 'white' : 'black' }]}>Dark theme</Text>
-                        <Switch value={dark} onChange={() => setDark(!dark)} />
+                        <Switch thumbColor={dark?"white":"black"}  value={dark} onChange={() => setDark(!dark)} />
                     </View>
                 </View>
             </View>
